@@ -9,12 +9,6 @@ pipeline {
         CI = 'true'
     }
     stages {
-        stage('install node modules...') {
-            agent { docker 'node' }
-            steps {
-                sh 'cd /path/to/package.json; yarn install'
-            }
-        }
         stage('Build') {
             steps {
             withDockerContainer(args: "-u root", image: "node") {
