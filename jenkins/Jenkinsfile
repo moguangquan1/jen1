@@ -1,24 +1,23 @@
 pipeline {
+    agent {
+        docker {
+            image 'node'
+            args '-u root'
+        }
+    }
     environment {
         CI = 'true'
     }
     stages {
-        stage('Prepare environment') {
-            steps {
-            checkout scm
-            // Build the Docker image from the Dockerfile located at the root of the project
-            docker.build('node1')
-            }
-        }
         stage('install node modules...') {
-            agent { docker 'node1' }
+            agent { docker 'node' }
             steps {
                 sh 'cd /path/to/package.json; yarn install'
             }
         }
         stage('Build') {
             steps {
-            withDockerContainer(args: "-u root", image: "node1") {
+            withDockerContainer(args: "-u root", image: "node") {
                 sh "npm install"
             }
             }
