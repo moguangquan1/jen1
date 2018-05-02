@@ -3,10 +3,10 @@ pipeline {
         CI = 'true'
     }
     stages {
-        stage("Prepare environment") {
-        checkout scm
-        // Build the Docker image from the Dockerfile located at the root of the project
-        docker.build("node1")
+        stage('Prepare environment') {
+            checkout scm
+            // Build the Docker image from the Dockerfile located at the root of the project
+            docker.build('node1')
         }
         stage('install node modules...') {
             agent { docker 'node1' }
