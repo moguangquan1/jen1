@@ -1,17 +1,22 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:6-alpine'
-            args '-p 3000:3000'
-        }
-    }
     environment {
         CI = 'true'
     }
     stages {
+        stage("Prepare environment") {
+        checkout scm
+        // Build the Docker image from the Dockerfile located at the root of the project
+        docker.build("node1")
+        }
+        stage('install node modules...') {
+            agent { docker 'node1' }
+            steps {
+                sh 'cd /path/to/package.json; yarn install'
+            }
+        }
         stage('Build') {
             steps {
-            withDockerContainer(args: "-u root", image: "node:6-alpine") {
+            withDockerContainer(args: "-u root", image: "node1") {
                 sh "npm install"
             }
             }
