@@ -16,7 +16,6 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh './jenkins/scripts/killexisting.sh'
                 sh './jenkins/scripts/test.sh'
             }
         }
